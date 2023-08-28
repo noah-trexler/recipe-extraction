@@ -10,6 +10,7 @@ router.get("/recipe", function (req, res, next) {
 
   // reference: https://www.freecodecamp.org/news/the-ultimate-guide-to-web-scraping-with-node-js-daa2027dcd3/
   // future option: cheerio has capability to load from URL
+
   puppeteer
     .launch()
     .then((browser) => browser.newPage())
