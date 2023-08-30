@@ -4,30 +4,9 @@ var cheerio = require("cheerio");
 var router = express.Router();
 
 router.get("/recipe", function (req, res, next) {
-  console.log(req.query.url);
-  const ingredients = [];
-  const steps = [];
-
-  // Construct the search terms for traversing DOM
-  const headerTag = ":is(h1,h2,h3,h4,h5,h6):contains";
-  const recipeTitle = [
-    "Method",
-    "Instructions",
-    "Directions",
-    "Preparation",
-    "Recipe",
-    "Technique",
-    "Procedure",
-    "Process",
-  ];
-  let searchString = "";
-  for (let title of recipeTitle) {
-    searchString = searchString + (headerTag + `('${title}'),\n`);
-  }
-
   // reference: https://www.freecodecamp.org/news/the-ultimate-guide-to-web-scraping-with-node-js-daa2027dcd3/
   puppeteer
-    .launch()
+    .launch({ headless: "new" })
     .then((browser) => browser.newPage())
     .then((page) =>
       page
@@ -37,26 +16,8 @@ router.get("/recipe", function (req, res, next) {
     .then((html) => {
       const $ = cheerio.load(html);
 
-      $(":is(h1,h2,h3,h4,h5,h6):contains('Ingredients')")
-        .closest(':contains("ul")')
-        .find("ul,ol")
-        .find("li")
-        .each(function (i, elem) {
-          let str = $(this).prop("innerText");
-          ingredients[i] = str.replaceAll(/<(.|\n)*>/gm, ""); // RegEx to replace any lingering html tags
-        });
-
-      $(`:is(h1,h2,h3,h4,h5,h6):contains('Method'),
-         :is(h1,h2,h3,h4,h5,h6):contains('Instructions'),
-         :is(h1,h2,h3,h4,h5,h6):contains('Directions'),
-         :is(h1,h2,h3,h4,h5,h6):contains('Preparation')`)
-        .closest(':contains("ol")')
-        .find("ol,ul")
-        .find("li")
-        .each(function (i, elem) {
-          let str = $(this).prop("innerText");
-          steps[i] = str.replaceAll(/<(.|\n)*>/gm, "");
-        });
+      const ingredients = ingredientSearch($);
+      const steps = stepSearch($);
 
       res.status(200).json({
         message: "Successfully retrieved recipe.",
@@ -91,3 +52,49 @@ module.exports = router;
  * - Traverse up the DOM until an element containing <ol> is found
  * - Extract the text contents of the <ol>
  */
+
+function ingredientSearch($) {
+  const ingredients = [];
+  $(":is(h1,h2,h3,h4,h5,h6):contains('Ingredients')")
+    .closest(':contains("ul")')
+    .find("ul")
+    .find("li")
+    .each(function (i, elem) {
+      let str = $(this).prop("innerText");
+      ingredients[i] = str.replaceAll(/(<(.|\n)*>|▢)/gm, ""); // RegEx to replace any lingering html tags
+    });
+  return ingredients;
+}
+
+function stepSearch($) {
+  const steps = [];
+
+  // Construct the search terms for traversing DOM
+  const headerTag = ":is(h1,h2,h3,h4,h5,h6):contains";
+  const recipeTitle = [
+    "Method",
+    "Instructions",
+    "Directions",
+    "Preparation",
+    "Recipe",
+    "Technique",
+    "Procedure",
+    "Process",
+  ];
+
+  for (let title of recipeTitle) {
+    let searchString = headerTag + `('${title}')`;
+    const header = $(searchString);
+    if (header.length > 0) {
+      header
+        .closest(':contains("ol")')
+        .find("ol,ul")
+        .find("li")
+        .each(function (i, elem) {
+          let str = $(this).prop("innerText");
+          steps[i] = str.replaceAll(/<(.|\n)*>/gm, "");
+        });
+      return steps;
+    }
+  }
+}
