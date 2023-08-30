@@ -10,6 +10,7 @@ import { ExtractRecipeService } from 'src/app/services/extract-recipe.service';
 })
 export class DisplayComponent implements OnInit {
   _url = '';
+  _error = '';
   _recipe?: Recipe;
   recipeSub!: Subscription;
 
@@ -22,8 +23,9 @@ export class DisplayComponent implements OnInit {
   ngOnInit(): void {
     this.recipeSub = this.extractRecipeService.recipeSubject.subscribe(
       (recipe) => {
-        console.log(recipe);
-        this._recipe = recipe;
+        recipe
+          ? (this._recipe = recipe)
+          : (this._error = 'Error retrieving recipe.');
       }
     );
   }

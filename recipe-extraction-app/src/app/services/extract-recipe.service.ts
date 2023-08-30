@@ -7,20 +7,23 @@ import { Recipe } from '../models/recipe.model';
   providedIn: 'root',
 })
 export class ExtractRecipeService {
-  recipeSubject = new Subject<Recipe>();
+  recipeSubject = new Subject<Recipe | null>();
 
   constructor(private http: HttpClient) {}
 
   extractRecipe(_url: string) {
     this.http
-      .get<{ message: string; recipe: Recipe }>(
+      .get<{ message: string; recipe: Recipe | null }>(
         'http://localhost:3000/api/recipe/',
         {
           params: new HttpParams({ fromObject: { url: _url } }),
         }
       )
       .subscribe((response) => {
-        this.recipeSubject.next(response.recipe);
+        console.log(response);
+        response.recipe
+          ? this.recipeSubject.next(response.recipe)
+          : this.recipeSubject.next(null);
       });
   }
 }
