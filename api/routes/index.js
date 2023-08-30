@@ -13,9 +13,7 @@ router.get("/recipe", function (req, res, next) {
     .launch({ headless: "new" })
     .then((browser) => browser.newPage())
     .then((page) =>
-      page
-        .goto(req.query.url, { waitUntil: "load", timeout: 0 })
-        .then(() => page.content())
+      page.goto(req.query.url, { timeout: 120000 }).then(() => page.content())
     )
     .then((html) => {
       const $ = cheerio.load(html);
