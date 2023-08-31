@@ -7,6 +7,9 @@
  * - Extract the text contents of the <ol>
  */
 
+// Current issue is that for some websites the contains finds the parent which includes an id or class including the recipe title
+// Fix is to search for the innertext of the header to find
+
 function stepSearch($) {
   const steps = [];
 

@@ -12,6 +12,7 @@ function ingredientSearch($) {
   $(":is(h1,h2,h3,h4,h5,h6):contains('Ingredients')")
     .closest(':contains("ul")')
     .find("ul")
+    .first()
     .find("li")
     .each(function (i, elem) {
       let str = $(this).prop("innerText");
