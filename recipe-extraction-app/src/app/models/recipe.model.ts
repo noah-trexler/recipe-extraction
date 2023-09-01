@@ -31,4 +31,7 @@ interface Ingredient {
    * Whether the "ingredient" is actually a group header, e.g. "For icing:"
    */
   isGroupHeader: boolean;
+
+  _quantity: number | null;
+  _quantity2: number | null;
 }

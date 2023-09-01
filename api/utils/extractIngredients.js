@@ -65,7 +65,7 @@ function extractIngredients(ingredients) {
   for (let ingredient of ingredients) {
     ingredient = ingredient
       .trim()
-      .replaceAll(/\([^\)]*\)/gm, "")
+      // .replaceAll(/\([^\)]*\)/gm, "")
       .toLowerCase();
 
     ingredient_list.push(ParseIngredient.parseIngredient(ingredient)[0]);

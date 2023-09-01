@@ -22,7 +22,12 @@
 
   <section id="recipe" *ngIf="_recipe">
     <label for="scale">Scale by factor: </label>
-    <input type="text" id="scale" [(ngModel)]="scale_factor" />
+    <input
+      type="text"
+      id="scale"
+      [ngModel]="scale_factor"
+      (ngModelChange)="onChange($event)"
+    />
     <h3>Ingredients:</h3>
     <ul>
       <li *ngFor="let _i of _recipe.ingredients">

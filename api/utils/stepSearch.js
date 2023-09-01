@@ -32,7 +32,7 @@ function stepSearch($) {
     const header = $(searchString);
     if (header.length > 0) {
       header
-        .closest(':contains("ol")')
+        .closest(':contains("li")')
         .find("ol,ul")
         .find("li")
         .each(function (i, elem) {
