@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { DisplayComponent } from './main/display/display.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FormatNumberPipe } from './pipes/format-number.pipe';
 
 @NgModule({
-  declarations: [AppComponent, DisplayComponent],
+  declarations: [AppComponent, DisplayComponent, FormatNumberPipe],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
