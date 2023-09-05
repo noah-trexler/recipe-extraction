@@ -1,5 +1,5 @@
 var express = require("express");
-var puppeteer = require("puppeteer");
+var fetch = require("node-fetch");
 var cheerio = require("cheerio");
 var router = express.Router();
 
@@ -8,15 +8,10 @@ const { stepSearch } = require("../utils/stepSearch");
 const { extractIngredients } = require("../utils/extractIngredients");
 
 router.get("/recipe", function (req, res, next) {
-  // reference: https://www.freecodecamp.org/news/the-ultimate-guide-to-web-scraping-with-node-js-daa2027dcd3/
-  puppeteer
-    .launch({ headless: "new" })
-    .then((browser) => browser.newPage())
-    .then((page) =>
-      page.goto(req.query.url, { timeout: 120000 }).then(() => page.content())
-    )
-    .then((html) => {
-      const $ = cheerio.load(html);
+  fetch(req.query.url)
+    .then((html) => html.text())
+    .then((text) => {
+      const $ = cheerio.load(text);
 
       const ingredient_list = ingredientSearch($);
       const steps = stepSearch($);
