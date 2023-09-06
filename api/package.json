@@ -17,6 +17,7 @@
     "node-fetch": "^2.7.0",
     "nodemon": "^3.0.1",
     "numeric-quantity": "^2.0.0",
-    "parse-ingredient": "^1.0.1"
+    "parse-ingredient": "^1.0.1",
+    "rdf": "^4.1.1"
   }
 }

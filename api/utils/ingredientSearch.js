@@ -7,8 +7,14 @@
  * - Extract the text contents of the <ul>
  */
 
+const { logHTML } = require("./debugUtils");
+const { parseRDF } = require("./parseRDF");
+
 function ingredientSearch($) {
   const ingredients = [];
+
+  // logHTML($, $(":is(h1,h2,h3,h4,h5,h6):contains('Ingredients')"));
+
   $(":is(h1,h2,h3,h4,h5,h6):contains('Ingredients')")
     .closest(':contains("ul")')
     .find("ul")

@@ -67,7 +67,6 @@ function extractIngredients(ingredients) {
       .trim()
       // .replaceAll(/\([^\)]*\)/gm, "")
       .toLowerCase();
-
     ingredient_list.push(ParseIngredient.parseIngredient(ingredient)[0]);
   }
   return ingredient_list;
