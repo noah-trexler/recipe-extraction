@@ -19,7 +19,7 @@ function ingredientSearch($) {
     .find("li")
     .each(function (i, elem) {
       let str = $(this).prop("innerText");
-      ingredients[i] = str.replaceAll(/(<(.|\n)*>|▢)/gm, ""); // RegEx to replace any lingering html tags
+      ingredients[i] = str.replace(/(<(.|\n)*>|▢)/gm, ""); // RegEx to replace any lingering html tags
     });
   return ingredients;
 }

@@ -48,7 +48,7 @@ function stepSearch($) {
       // Extract the text from each step
       header.each(function (i, elem) {
         let str = $(this).prop("innerText");
-        steps[i] = str.replaceAll(/<(.|\n)*>/gm, "");
+        steps[i] = str.replace(/<(.|\n)*>/gm, "");
       });
       return steps;
     }
