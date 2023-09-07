@@ -7,9 +7,6 @@
  * - Extract the text contents of the <ul>
  */
 
-const { logHTML } = require("./debugUtils");
-const { parseRDF } = require("./parseRDF");
-
 function ingredientSearch($) {
   const ingredients = [];
 

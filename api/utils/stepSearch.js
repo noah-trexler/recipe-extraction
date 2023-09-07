@@ -7,8 +7,20 @@
  * - Extract the text contents of the <ol>
  */
 
-// Current issue is that for some websites the contains finds the parent which includes an id or class including the recipe title
-// Fix is to search for the innertext of the header to find
+// const { logHTML } = require("./debugUtils");
+
+/**
+ * moveUpDOM takes an element and moves upwards until the selection contains <ol> or <ul>
+ * @param {*} $ The element to start at within the DOM
+ * @returns The list of <li> elements in the nearest <ol> or <ul>
+ */
+function moveUpDOM($) {
+  let resultEl = $;
+  while (resultEl.find("ol,ul").length === 0) {
+    resultEl = resultEl.parent();
+  }
+  return resultEl.find("li");
+}
 
 function stepSearch($) {
   const steps = [];
@@ -29,16 +41,15 @@ function stepSearch($) {
 
   for (let title of recipeTitle) {
     let searchString = headerTag + `('${title}')`;
-    const header = $(searchString);
+    let header = $(searchString);
     if (header.length > 0) {
-      header
-        .closest(':contains("li")')
-        .find("ol,ul")
-        .find("li")
-        .each(function (i, elem) {
-          let str = $(this).prop("innerText");
-          steps[i] = str.replaceAll(/<(.|\n)*>/gm, "");
-        });
+      header = moveUpDOM(header);
+
+      // Extract the text from each step
+      header.each(function (i, elem) {
+        let str = $(this).prop("innerText");
+        steps[i] = str.replaceAll(/<(.|\n)*>/gm, "");
+      });
       return steps;
     }
   }
