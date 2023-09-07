@@ -14,7 +14,7 @@ export class ExtractRecipeService {
   extractRecipe(_url: string) {
     this.http
       .get<{ message: string; recipe: Recipe | null }>(
-        'http://localhost:3000/api/recipe/',
+        'https://recipe-extraction-service.onrender.com',
         {
           params: new HttpParams({ fromObject: { url: _url } }),
         }

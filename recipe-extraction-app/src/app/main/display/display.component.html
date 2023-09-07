@@ -41,7 +41,7 @@
     </ul>
     <h3>Steps:</h3>
     <ol>
-      <li *ngFor="let step of _recipe.steps">{{ step }}</li>
+      <li *ngFor="let step of _recipe.steps">{{ step.trim() }}</li>
     </ol>
   </section>
 </main>
