@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "baseHref": "https://noah-trexler.github.io/recipe-extraction/",
             "outputPath": "dist/recipe-extraction-app",
             "index": "src/index.html",
             "main": "src/main.ts",
